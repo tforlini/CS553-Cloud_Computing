@@ -1,0 +1,18 @@
+Mpi sort
+
+    Message Passing Interface (MPI) is a standard describing interaction between processes. It is specially designed to be used on large, scalable parallel applications. In this part of the assignment, the C openmpi library was used. This library allows to launch a single application on multiple processes/nodes and manages the communication details between them.
+
+Program conception explanation
+
+In this part, I will try to justify  the conception choices made to develop a sorting program with the MPI library.
+    The are several task to execute in this problem : sort shards, merge sorted shards, hand out shards to the different nodes and gather results. Sorting and merging will be worker’s job while distributing shards and gathering the final result will be a responsibility given to a single master node.
+    The temporal distribution of jobs among workers is a difficult subject. The easiest method is to assign every worker to the sorting task and then merge the sorted elements. I chose not to follow this idea since in my opinion, the network usage is really bursty with this approach and that could cause congestion and delay the execution progress.
+    My approach is as follow: all nodes are assigned to sort a first shard. Then, a subset of the workers are assigned to merging while the others are given new shards to sort. The sorting node send their result to the merger and get a new shard from the master until there is no shard left. Then, the merging nodes gather the last sorted shard and start to send their accumulated data to each other, until all the data is in a single node, that will then send it back to the master.
+    The sorting is made by using a quick sort algorithm and the merging is inspired from the merging part of the merge sort algorithm.
+    Currently the program is meant to sort integers, but the transition to character strings is not that much of a problem. Unfortunately a segmentation fault arose during the local debugging. This segmentation fault occurs in a MPI function ( “Program received signal SIGSEGV, Segmentation fault. __memmove_ssse3_back() at ../sysdeps/x86_64/multiarch/ memcpy-ssse3-back.S:131   131     ../sysdeps/x86_64/multiarch/ memcpy-ssse3-back.S: No such file or directory”.) This error is sparsely documented, but none of the few solutions found on the net worked.
+
+Expected results.
+
+Since MPI allows to finely tune the communication, job assignment and task parallelisation, it feels like it should be slightly more efficient on the sorting problem than Hadoop MapReduce and Swift solutions. On the other hand, on the wordcount I guess that since it’s almost implemented in Swift and Hadoop, optimisations were made.  
+
+

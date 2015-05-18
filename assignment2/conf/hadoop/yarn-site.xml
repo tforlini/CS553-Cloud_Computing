@@ -1,0 +1,7 @@
+<configuration>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>resourcemanager.localhost</value>
+        <description>The hostname of the RM.</description>
+    </property>
+</configuration>

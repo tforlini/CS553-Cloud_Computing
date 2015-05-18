@@ -1,0 +1,17 @@
+target,access_mode,n_operations,block_size,n_threads,speed
+memory,sequential,10000000,1,1,throughput,41.124538 MBps
+memory,sequential,10000000,1,1,latency,0.243477 s
+memory,sequential,100000000,1,1,throughput,40.816993 MBps
+memory,sequential,100000000,1,1,latency,2.454211 s
+memory,sequential,10000000,2,1,throughput,57.566384 MBps
+memory,sequential,10000000,2,1,latency,0.337737 s
+memory,sequential,100000000,2,1,throughput,59.629066 MBps
+memory,sequential,100000000,2,1,latency,3.333152 s
+memory,random,10000000,1,1,throughput,1.738176 MBps
+memory,random,10000000,1,1,latency,5.720183 s
+memory,random,100000000,1,1,throughput,1.514871 MBps
+memory,random,100000000,1,1,latency,64.489924 s
+memory,random,10000000,2,1,throughput,1.341953 MBps
+memory,random,10000000,2,1,latency,14.169877 s
+memory,random,100000000,2,1,throughput,1.304209 MBps
+memory,random,100000000,2,1,latency,154.486509 s

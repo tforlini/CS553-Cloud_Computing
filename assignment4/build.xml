@@ -1,0 +1,59 @@
+<!-- 
+   Ant build script for compiling and running the AWS Java SDK EC2 Spot Instances sample.
+   Don't forget to fill in your AWS access credentials in AwsCredentials.properties
+   before trying to run it.  
+  -->
+
+<project name="CS553 Cloud Computing - Assignment 4" default="compile" basedir=".">
+    <!-- set global properties for this build -->
+    <property environment="env"/>
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+
+    <path id="aws.java.sdk.classpath">
+        <fileset dir="/home/ec2-user/aws-java-sdk-1.9.8/third-party" includes="**/*.jar"/>
+        <fileset dir="/home/ec2-user/aws-java-sdk-1.9.8/lib" includes="**/*.jar"/>
+        <pathelement location="."/>
+    </path>
+
+    <path id="assignment.classpath">
+        <fileset dir="${build}" includes="*.class"/>
+    </path>
+
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${build}" classpathref="aws.java.sdk.classpath" includeantruntime="true"/>
+    </target>
+
+    <target name="client" depends="compile">
+        <java classname="Client" fork="true" classpath="${build}" classpathref="aws.java.sdk.classpath">
+            <arg line="${arg0} ${arg1} ${arg2} ${arg3}"/>
+            <jvmarg value="-Djava.util.logging.SimpleFormatter.format=%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n"/>
+        </java>
+    </target>
+
+    <target name="scheduler" depends="compile">
+        <java classname="Scheduler" fork="true" classpath="${build}" classpathref="aws.java.sdk.classpath">
+            <arg line="${arg0} ${arg1} ${arg2} ${arg3}"/>
+            <jvmarg value="-Djava.util.logging.SimpleFormatter.format=%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n"/>
+        </java>
+    </target>
+
+    <target name="worker" depends="compile">
+        <java classname="SQSWorker" fork="true" classpath="${build}" classpathref="aws.java.sdk.classpath">
+            <arg line="${arg0} ${arg1}"/>
+            <jvmarg value="-Djava.util.logging.SimpleFormatter.format=%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %2$s %5$s%6$s%n"/>
+        </java>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+</project>
+
+
+

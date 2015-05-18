@@ -1,0 +1,14 @@
+application: cs553-cloudcomputing-prog3
+version: v1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+env_variables:
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+  mime_type: "text/css"
+- url: /.*
+  script: main.application

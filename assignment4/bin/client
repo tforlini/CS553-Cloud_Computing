@@ -1,0 +1,2 @@
+#!/bin/sh
+ant client -f /home/ec2-user/cs553-cloudcomputing-2014/assignment4/build.xml -Darg0=$1 -Darg1=$2 -Darg2=$3 -Darg3=$4
